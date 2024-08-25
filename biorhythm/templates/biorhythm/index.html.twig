@@ -1,0 +1,82 @@
+{# templates/biorhythm/index.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-4">
+    <h1>Biorhythm Calculator</h1>
+    <form method="post" class="form-inline">
+        <div class="form-group">
+            <label for="birthdate">Birthdate:</label>
+            <input type="date" id="birthdate" name="birthdate" class="form-control mx-2" value="{{ birthdate }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Calculate</button>
+    </form>
+
+    {% if data %}
+        <div id="biorhythm-chart" class="mt-4"></div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Highcharts.chart('biorhythm-chart', {
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: 'Biorhythm Graph {{ birthdate }}'
+                    },
+                    xAxis: {
+                        categories: {{ dates|json_encode|raw }},
+                        title: {
+                            text: 'Date'
+                        },
+                        plotLines: [{
+                            color: 'black',
+                            dashStyle: 'shortdash',
+                            width: 1,
+                            value: (function() {
+                                const today = new Date();
+                                const todayString = today.toISOString().split('T')[0];
+                                return {{ dates|json_encode|raw }}.indexOf(todayString);
+                            })(),
+                            zIndex: 3
+                        }]
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Biorhythm Value'
+                        },
+                        min: 0,
+                        max: 100,
+                        plotLines: [{
+                            value: 50,
+                            color: 'black',
+                            dashStyle: 'shortdash',
+                            width: 2
+                        }]
+                    },
+                    tooltip: {
+                        crosshairs: {
+                            color: 'black',
+                            dashStyle: 'shortdash',
+                            width: 1
+                        },
+                        shared: true
+                    },
+                    series: [{
+                        name: 'Physical',
+                        data: {{ data.physical|json_encode|raw }},
+                        color: '#ff0000'
+                    }, {
+                        name: 'Emotional',
+                        data: {{ data.emotional|json_encode|raw }},
+                        color: '#00ff00'
+                    }, {
+                        name: 'Intellectual',
+                        data: {{ data.intellectual|json_encode|raw }},
+                        color: '#0000ff'
+                    }]
+                });
+            });
+        </script>
+    {% endif %}
+</div>
+{% endblock %}

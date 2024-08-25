@@ -1,0 +1,22 @@
+# Use the front controller as the base for URL rewriting
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect Trailing Slashes...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Disable directory listing
+Options -Indexes
+
+# Disable access to sensitive files
+<FilesMatch "\.(env|yml|twig|git|md)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
