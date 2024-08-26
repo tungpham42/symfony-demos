@@ -1,0 +1,23 @@
+{# templates/proverb/index.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Proverb of the Day{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1 class="text-center">Proverb of the Day</h1>
+    <div class="card mt-4">
+        <div class="card-body">
+            <blockquote class="blockquote">
+                <p class="mb-0">{{ proverb.content }}</p>
+                <footer class="mt-1 blockquote-footer">{{ proverb.author }}</footer>
+            </blockquote>
+            <p class="mt-3"><strong>Tags:</strong> {{ proverb.tags | join(', ') }}</p>
+            <p><strong>Length:</strong> {{ proverb.length }} characters</p>
+            <p><strong>Date Added:</strong> {{ proverb.dateAdded }}</p>
+            <p><strong>Last Modified:</strong> {{ proverb.dateModified }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
