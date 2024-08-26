@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Todo{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Create Todo</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.status) }}
+
+        <button type="submit" class="btn btn-success">Create</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

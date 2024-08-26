@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Todo List{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Todo List</h1>
+    <a href="{{ path('todo_create') }}" class="btn btn-primary mb-3">Create New Todo</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todos %}
+                <tr>
+                    <td>{{ todo.title }}</td>
+                    <td>{{ todo.description }}</td>
+                    <td>{{ todo.status ? 'Completed' : 'Pending' }}</td>
+                    <td>
+                        <a href="{{ path('todo_edit', {id: todo.id}) }}" class="btn btn-warning">Edit</a>
+
+                        <form action="{{ path('todo_delete', {id: todo.id}) }}" method="post" style="display:inline-block;">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ todo.id) }}">
+                            <button class="btn btn-danger" type="submit">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
